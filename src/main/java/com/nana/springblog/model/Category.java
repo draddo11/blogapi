@@ -10,12 +10,12 @@ public class Category {
     private Long id;
     private String categoryName;
     private String text;
-    private String Categories;
+    private String posts;
 
-    public Category(String categoryName, String text, String categories) {
+    public Category(String categoryName, String text, String posts) {
         this.categoryName = categoryName;
         this.text = text;
-        Categories = categories;
+        this.posts = posts;
     }
 
     public Category() {
@@ -38,12 +38,12 @@ public class Category {
         this.text = text;
     }
 
-    public String getCategories() {
-        return Categories;
+    public String getPosts() {
+        return posts;
     }
 
-    public void setCategories(String categories) {
-        Categories = categories;
+    public void setPosts(String posts) {
+        this.posts = posts;
     }
 
     public Long getId() {
@@ -60,7 +60,7 @@ public class Category {
                 "id=" + id +
                 ", categoryName='" + categoryName + '\'' +
                 ", text='" + text + '\'' +
-                ", Categories='" + Categories + '\'' +
+                ", Categories='" + posts + '\'' +
                 '}';
     }
 }
