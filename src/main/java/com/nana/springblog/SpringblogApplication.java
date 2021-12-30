@@ -11,9 +11,14 @@ public class SpringblogApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(SpringblogApplication.class, args);
+    }
 
-        @Bean
-                public CommandLineRunner run
+    @Bean
+    public CommandLineRunner run(AuthorRepository repository) {
+         return (args -> {
+            insertJavaAdvocates(repository);
+            System.out.println(repository.findAll());
+            });
 
 
     }
