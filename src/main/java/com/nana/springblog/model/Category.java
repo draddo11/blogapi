@@ -9,12 +9,12 @@ public class Category {
     @Column(name = "id", nullable = false)
     private Long id;
     private String categoryName;
-    private String text;
+    private String description;
     private String posts;
 
-    public Category(String categoryName, String text, String posts) {
+    public Category(String categoryName, String description, String posts) {
         this.categoryName = categoryName;
-        this.text = text;
+        this.description = description;
         this.posts = posts;
     }
 
@@ -30,12 +30,12 @@ public class Category {
         this.categoryName = categoryName;
     }
 
-    public String getText() {
-        return text;
+    public String getDescription() {
+        return description;
     }
 
-    public void setText(String text) {
-        this.text = text;
+    public void setDescription(String text) {
+        this.description = text;
     }
 
     public String getPosts() {
@@ -59,7 +59,7 @@ public class Category {
         return "Category{" +
                 "id=" + id +
                 ", categoryName='" + categoryName + '\'' +
-                ", text='" + text + '\'' +
+                ", text='" + description + '\'' +
                 ", Categories='" + posts + '\'' +
                 '}';
     }
