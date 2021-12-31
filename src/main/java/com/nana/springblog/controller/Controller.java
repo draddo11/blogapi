@@ -33,7 +33,7 @@ import java.util.List;
 //                return ResponseEntity.notFound().build();
 //            }
 //        }
-        @PutMapping("/authors/edit")
+        @PutMapping("/authors/{id}")
         Author updateAuthor(@RequestBody Author newAuthor, @PathVariable Long id){
             return blogService.updateAuthor(newAuthor,id);
         }
