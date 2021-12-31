@@ -1,13 +1,17 @@
 package com.nana.springblog.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import java.util.List;
 
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Entity
 @Table(name="Author")
 public class Author {
     @Id
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @GeneratedValue(strategy = GenerationType.AUTO)
    @Column( nullable = false)
     private Long id;
