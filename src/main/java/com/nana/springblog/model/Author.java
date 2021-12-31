@@ -4,6 +4,7 @@ package com.nana.springblog.model;
 import javax.persistence.*;
 
 @Entity
+@Table(name="Author")
 public class Author {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
