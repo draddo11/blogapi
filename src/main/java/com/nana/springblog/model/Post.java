@@ -1,25 +1,33 @@
 package com.nana.springblog.model;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id", nullable = false)
+    @Column( nullable = false)
     private Long id;
     private String title;
     private String text;
-    private String postCategories;
 
-    public Post(String title, String text, String postCategories) {
-        this.title = title;
-        this.text = text;
-        this.postCategories = postCategories;
-    }
+
+    @ManyToOne()
+    @JoinColumn(name="author_id")
+    private Author author;
+
+    @OneToMany(mappedBy = "post")
+    private List <Category> categories;
 
     public Post() {
+    }
 
+    public Post(String title, String text, Author author, List<Category> categories) {
+        this.title = title;
+        this.text = text;
+        this.author = author;
+        this.categories = categories;
     }
 
     public String getTitle() {
@@ -38,21 +46,20 @@ public class Post {
         this.text = text;
     }
 
-    public String getPostCategories() {
-        return postCategories;
+    public Author getAuthor() {
+        return author;
     }
 
-    public void setPostCategories(String postCategories) {
-        this.postCategories = postCategories;
-    }
-//    private String author;
-
-    public Long getId() {
-        return id;
+    public void setAuthor(Author author) {
+        this.author = author;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public List<Category> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(List<Category> categories) {
+        this.categories = categories;
     }
 
     @Override
@@ -61,7 +68,8 @@ public class Post {
                 "id=" + id +
                 ", title='" + title + '\'' +
                 ", text='" + text + '\'' +
-                ", postCategories='" + postCategories + '\'' +
+                ", author=" + author +
+                ", categories=" + categories +
                 '}';
     }
 }

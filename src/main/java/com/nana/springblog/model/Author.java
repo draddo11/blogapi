@@ -2,18 +2,22 @@ package com.nana.springblog.model;
 
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name="Author")
 public class Author {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-   @Column(name = "id", nullable = false)
+   @Column( nullable = false)
     private Long id;
     private String firstName;
     private String lastName;
     private String  email;
     private String phoneNumber;
+
+ @OneToMany(mappedBy = "author")
+ private List<Post> posts;
 
     public Author(String firstName, String lastName, String email, String phoneNumber) {
         this.firstName = firstName;

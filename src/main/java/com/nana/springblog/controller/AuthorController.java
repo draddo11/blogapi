@@ -12,29 +12,29 @@ import java.util.Optional;
 
 
     @RestController
-    @RequestMapping("/api/authors")
+    @RequestMapping("/api/v1")
     public class AuthorController {
 
         @Autowired
         private AuthorRepository authorRepository;
 
-        @GetMapping
+        @GetMapping("/authors")
         public List<Author> findAllAuthors(){
             return (List<Author>) authorRepository.findAll();
         }
-
-        @GetMapping("/{id}")
-        public ResponseEntity<Author> findAuthorById(@PathVariable(value = "id") long id) {
-            Optional<Author> author = authorRepository.findById(id);
-
-            if(author.isPresent()) {
-                return ResponseEntity.ok().body(author.get());
-            } else {
-                return ResponseEntity.notFound().build();
-            }
-        }
-
-        @PostMapping
+//
+//        @GetMapping("/{id}")
+//        public ResponseEntity<Author> findAuthorById(@PathVariable(value = "id") long id) {
+//            Optional<Author> author = authorRepository.findById(id);
+//
+//            if(author.isPresent()) {
+//                return ResponseEntity.ok().body(author.get());
+//            } else {
+//                return ResponseEntity.notFound().build();
+//            }
+//        }
+//
+        @PostMapping("/new")
         public Author saveAuthor(@Validated @RequestBody Author author) {
             return authorRepository.save(author);
         }

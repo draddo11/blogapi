@@ -12,6 +12,22 @@ public class Category {
     private String description;
     private String posts;
 
+    @ManyToOne
+    @JoinColumn(name="post_id")
+    private Post post;
+
+    public Post getPost() {
+        return post;
+    }
+
+    public void setPost(Post post) {
+        this.post = post;
+    }
+
+    public Category(Post post) {
+        this.post = post;
+    }
+
     public Category(String categoryName, String description, String posts) {
         this.categoryName = categoryName;
         this.description = description;

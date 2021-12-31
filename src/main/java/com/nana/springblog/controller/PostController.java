@@ -34,7 +34,7 @@ public class PostController {
         }
     }
 
-    @PostMapping
+    @PostMapping()
     public Post savePost(@Validated @RequestBody Post post) {
         return postRepository.save(post);
     }
