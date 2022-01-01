@@ -8,11 +8,12 @@ import java.util.List;
 
 @Entity
 @Table(name = "posts")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Post  implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    private String category;
     private String title;
     private String text;
 
@@ -27,11 +28,11 @@ public class Post  implements Serializable {
     public Post() {
     }
 
-    public Post(String title, String text, Author author, List<Category> categories) {
+    public Post(String title, String text, Author author, String category) {
         this.title = title;
         this.text = text;
         this.author = author;
-//        this.categories = categories;
+        this.category = category;
     }
 
     public String getTitle() {
@@ -58,9 +59,9 @@ public class Post  implements Serializable {
         this.author = author;
     }
 
-//    public List<Category> getCategories() {
-//        return categories;
-//    }
+   public String  getCategory() {
+       return category;
+    }
 
     public Long getId() {
         return id;
@@ -70,9 +71,9 @@ public class Post  implements Serializable {
         this.id = id;
     }
 
-//    public void setCategories(List<Category> categories) {
-//        this.categories = categories;
-//    }
+    public void setCategory(String category) {
+        this.category = category;
+    }
 
     @Override
     public String toString() {

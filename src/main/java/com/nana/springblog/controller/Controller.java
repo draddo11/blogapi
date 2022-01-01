@@ -41,7 +41,7 @@ import java.util.List;
 
         @PostMapping("/authors")
         ResponseEntity <Author> saveAuthor(@Validated @RequestBody Author author) {
-            Author exstingAuthor = blogService.findAuthorByEmail(author.getEmail());
+            Author exstingAuthor = blogService.findAuthorByEmail(author);
             if(exstingAuthor != null){
                 return new ResponseEntity<Author>(HttpStatus.BAD_REQUEST);
             }

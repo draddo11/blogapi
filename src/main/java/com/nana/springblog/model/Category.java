@@ -10,30 +10,18 @@ public class Category {
     private Long id;
     private String categoryName;
     private String description;
-//    private String posts;
+    @ManyToOne(fetch= FetchType.LAZY, optional = false)
+    @JoinColumn(name= "post_id" , nullable = false)
+    private Post post;
 
-//    @ManyToOne
-//    @JoinColumn(name="post_id")
-//    private Post post;
 
-//    public Post getPost() {
-//        return post;
-//    }
-
-//    public void setPost(Post post) {
-//        this.post = post;
-//    }
-
-//    public Category(Post post) {
-//        this.post = post;
-//    }
-
-    public Category(String categoryName, String description
-//                    String posts
+    public Category(Long id,String categoryName, String description,
+                   Post posts
     ) {
+        this.id = id;
         this.categoryName = categoryName;
         this.description = description;
-//        this.posts = posts;
+        this.post = post;
     }
 
     public Category() {
@@ -56,13 +44,13 @@ public class Category {
         this.description = text;
     }
 
-//    public String getPosts() {
-//        return posts;
-//    }
-//
-//    public void setPosts(String posts) {
-//        this.posts = posts;
-//    }
+    public Post getPost() {
+        return post;
+    }
+
+    public void setPost(Post post) {
+        this.post = post;
+    }
 
     public Long getId() {
         return id;

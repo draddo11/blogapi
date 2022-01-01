@@ -17,7 +17,7 @@ public class Author {
 
     private String firstName;
     private String lastName;
-    @Column(unique=true)
+    @Column(unique=true, name = "email" ,nullable = false)
     private String  email;
     private String phoneNumber;
 
@@ -63,8 +63,8 @@ public class Author {
         return phoneNumber;
     }
 
-    public void setPhoneNumber(String phonenumber) {
-        this.phoneNumber = phonenumber;
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
     public Long getId() {

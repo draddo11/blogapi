@@ -34,8 +34,8 @@ public class BlogService {
     public Author findAuthorById(Long id){
         return authorRepository.getById(id);
     }
-    public Author findAuthorByEmail(String email){
-        return authorRepository.findByEmail(email);
+    public Author findAuthorByEmail(Author author){
+        return authorRepository.findByEmail(author.getEmail());
     }
 
 
