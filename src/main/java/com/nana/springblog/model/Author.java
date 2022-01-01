@@ -4,6 +4,7 @@ package com.nana.springblog.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
@@ -11,18 +12,17 @@ import java.util.List;
 @Table(name="Author")
 public class Author {
     @Id
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-    @GeneratedValue(strategy = GenerationType.AUTO)
-   @Column( nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String firstName;
     private String lastName;
     @Column(unique=true)
     private String  email;
     private String phoneNumber;
 
- @OneToMany(mappedBy = "author")
- private List<Post> posts;
+// @OneToMany(mappedBy = "author" ,fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+// private List<Post> posts;
 
     public Author(String firstName, String lastName, String email, String phoneNumber) {
         this.firstName = firstName;

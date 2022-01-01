@@ -60,32 +60,37 @@ public class BlogService {
 
 
     // posts
+
+
     public Post savePost(Post post){
         return postRepository.save(post);
     }
-    public List<Post> listAllPots(){
+
+    public List<Post> listAllPost(){
         return  postRepository.findAll();
     }
+
     public Post findPostById(Long id){
         return postRepository.getById(id);
     }
+
 
     public  void deletePostById(Long id)
     {
         postRepository.deleteById(id);
     }
 
-    public Post updatePost(Post post, Long id){
+    public Post updatePost(Post newpost, Long id){
         return postRepository.findById(id)
                 .map(newPost -> {
-                    newPost.setTitle(post.getTitle());
-                    newPost.setText(post.getText() );
-                    newPost.setCategories(post.getCategories());
-                    return postRepository.save(newPost);
+                    newPost.setTitle(newpost.getTitle());
+                    newPost.setText(newpost.getText() );
+//                    newPost.setCategories(newpost.getCategories());
+                    return postRepository.save(newpost);
                 })
                 .orElseGet(() ->{
-                    post.setId(id);
-                    return  postRepository.save(post);
+                    newpost.setId(id);
+                    return  postRepository.save(newpost);
                 });
     }
 

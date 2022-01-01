@@ -2,6 +2,7 @@ package com.nana.springblog.controller;
 
 import com.nana.springblog.AuthorRepository;
 import com.nana.springblog.model.Author;
+import com.nana.springblog.model.Post;
 import com.nana.springblog.service.BlogService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -46,6 +47,32 @@ import java.util.List;
             }
             return ResponseEntity.ok(blogService.saveAuthor(author));
         }
+
+//        post mappings
+
+    @GetMapping("/posts")
+    ResponseEntity<List <Post>> listAllPost(){
+        return ResponseEntity.ok(blogService.listAllPost());
+    }
+
+    @GetMapping("/posts/{id}")
+    ResponseEntity <Post> findPostById(@PathVariable Long id) {
+        return ResponseEntity.ok(blogService.findPostById(id));
+    }
+    @PutMapping("/posts/{id}")
+    ResponseEntity<Post> updatePost(@RequestBody Post newPost, @PathVariable Long id){
+        return ResponseEntity.ok(blogService.updatePost(newPost,id));
+    }
+
+    @DeleteMapping("/posts/{id}")
+    void deletePost(@PathVariable Long id){
+        blogService.deletePostById(id);
+    }
+
+    @PostMapping("/posts")
+    ResponseEntity <Post> savePost(@Validated @RequestBody Post post) {
+        return ResponseEntity.ok(blogService.savePost(post));
+    }
     }
 
 

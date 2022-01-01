@@ -3,25 +3,26 @@ package com.nana.springblog.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 
 @Entity
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-public class Post {
+@Table(name = "posts")
+public class Post  implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column( nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String title;
     private String text;
 
 
-    @ManyToOne()
-    @JoinColumn(name="author_id")
+    @ManyToOne(fetch = FetchType.LAZY,optional = false)
+    @JoinColumn(name="author_id", nullable = false)
     private Author author;
 
-    @OneToMany(mappedBy = "post")
-    private List <Category> categories;
+//    @OneToMany(mappedBy = "post")
+//    private List <Category> categories;
 
     public Post() {
     }
@@ -30,7 +31,7 @@ public class Post {
         this.title = title;
         this.text = text;
         this.author = author;
-        this.categories = categories;
+//        this.categories = categories;
     }
 
     public String getTitle() {
@@ -57,9 +58,9 @@ public class Post {
         this.author = author;
     }
 
-    public List<Category> getCategories() {
-        return categories;
-    }
+//    public List<Category> getCategories() {
+//        return categories;
+//    }
 
     public Long getId() {
         return id;
@@ -69,9 +70,9 @@ public class Post {
         this.id = id;
     }
 
-    public void setCategories(List<Category> categories) {
-        this.categories = categories;
-    }
+//    public void setCategories(List<Category> categories) {
+//        this.categories = categories;
+//    }
 
     @Override
     public String toString() {
@@ -80,7 +81,7 @@ public class Post {
                 ", title='" + title + '\'' +
                 ", text='" + text + '\'' +
                 ", author=" + author +
-                ", categories=" + categories +
+//                ", categories=" + categories +
                 '}';
     }
 }
