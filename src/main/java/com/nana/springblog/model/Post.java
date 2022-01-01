@@ -22,8 +22,6 @@ public class Post  implements Serializable {
     @JoinColumn(name="author_id", nullable = false)
     private Author author;
 
-//    @OneToMany(mappedBy = "post")
-//    private List <Category> categories;
 
     public Post() {
     }

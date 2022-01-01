@@ -1,6 +1,4 @@
 package com.nana.springblog.controller;
-
-import com.nana.springblog.AuthorRepository;
 import com.nana.springblog.model.Author;
 import com.nana.springblog.model.Post;
 import com.nana.springblog.service.BlogService;
@@ -9,7 +7,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 
@@ -21,12 +18,12 @@ import java.util.List;
         private BlogService blogService;
 
         @GetMapping("/authors")
-        ResponseEntity<List <Author>> listAllAuthors(){
+        ResponseEntity<List<Author>> listAllAuthors(){
             return ResponseEntity.ok(blogService.listAllAuthors());
         }
 
         @GetMapping("/authors/{id}")
-        ResponseEntity <Author> findAuthorById(@PathVariable Long id) {
+        ResponseEntity <Author> findAuthorById(@PathVariable(value = "id") Long id) {
             return ResponseEntity.ok(blogService.findAuthorById(id));
         }
         @PutMapping("/authors/{id}")
@@ -51,7 +48,7 @@ import java.util.List;
 //        post mappings
 
     @GetMapping("/posts")
-    ResponseEntity<List <Post>> listAllPost(){
+    ResponseEntity<List<Post>> listAllPost(){
         return ResponseEntity.ok(blogService.listAllPost());
     }
 
@@ -69,9 +66,9 @@ import java.util.List;
         blogService.deletePostById(id);
     }
 
-    @PostMapping("/posts")
-    ResponseEntity <Post> savePost(@Validated @RequestBody Post post) {
-        return ResponseEntity.ok(blogService.savePost(post));
+    @PostMapping("{id}/posts")
+    ResponseEntity <Post> savePost(@Validated @RequestBody Post post ,@PathVariable Long id) {
+        return ResponseEntity.ok(blogService.savePost(post , id));
     }
     }
 
