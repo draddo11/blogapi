@@ -3,14 +3,11 @@ package com.nana.springblog.service;
 import com.nana.springblog.AuthorRepository;
 import com.nana.springblog.CategoryRepository;
 import com.nana.springblog.PostRepository;
+import com.nana.springblog.exceptions.ResourceNotFoundException;
 import com.nana.springblog.model.Author;
 import com.nana.springblog.model.Post;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.AutoConfigurationPackage;
 import org.springframework.stereotype.Service;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
@@ -62,8 +59,14 @@ public class BlogService {
     // posts
 
 
-    public Post savePost(Post post){
-        return postRepository.save(post);
+    public Post savePost(Post post , Long id){
+        return authorRepository.findById(id).map(author -> {
+            post.setAuthor(author);
+            return postRepository.save(post);
+        } ).orElseThrow(() -> new ResourceNotFoundException("Author " + id + " not found"));
+
+
+
     }
 
     public List<Post> listAllPost(){
@@ -80,20 +83,27 @@ public class BlogService {
         postRepository.deleteById(id);
     }
 
-    public Post updatePost(Post newpost, Long id){
+    public Post updatePost(Post post, Long id){
         return postRepository.findById(id)
                 .map(newPost -> {
-                    newPost.setTitle(newpost.getTitle());
-                    newPost.setText(newpost.getText() );
-//                    newPost.setCategories(newpost.getCategories());
-                    return postRepository.save(newpost);
+                    newPost.setTitle(post.getTitle());
+                    newPost.setText(post.getText() );
+                  newPost.setCategory(post.getCategory());
+                    return postRepository.save(newPost);
                 })
                 .orElseGet(() ->{
-                    newpost.setId(id);
-                    return  postRepository.save(newpost);
+                    post.setId(id);
+                    return  postRepository.save(post);
                 });
     }
+// category
 
+//    public Category createCategory(Category category, Long id){
+//        return  postRepository.findById(id).map(posts ->{
+//            category.setPost(posts);
+//            return categoryRepository.save(category);
+//        }).orElseThrow(() -> new ResourceNotFoundException("Author " + id + " not found"));
+//    }
 
 
 
