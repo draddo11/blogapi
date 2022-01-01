@@ -84,12 +84,13 @@ public class BlogService {
     }
 
     public Post updatePost(Post post, Long id){
-        return postRepository.findById(id)
-                .map(newPost -> {
-                    newPost.setTitle(post.getTitle());
-                    newPost.setText(post.getText() );
-                  newPost.setCategory(post.getCategory());
-                    return postRepository.save(newPost);
+        return authorRepository.findById(id)
+                .map(author -> {
+                    post.setAuthor(author);
+                    post.setTitle(post.getTitle());
+                    post.setText(post.getText() );
+                    post.setCategory(post.getCategory());
+                    return postRepository.save(post);
                 })
                 .orElseGet(() ->{
                     post.setId(id);
