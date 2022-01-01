@@ -22,7 +22,7 @@ public class PostController {
     public List<Post> findAllPosts(){
         return (List<Post>) postRepository.findAll();
     }
-
+//GET ONE POST
     @GetMapping("/{id}")
     public ResponseEntity<Post> findPostById(@PathVariable(value = "id") long id) {
         Optional<Post>  post = postRepository.findById(id);

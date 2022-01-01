@@ -4,10 +4,13 @@ import com.nana.springblog.AuthorRepository;
 import com.nana.springblog.CategoryRepository;
 import com.nana.springblog.PostRepository;
 import com.nana.springblog.model.Author;
+import com.nana.springblog.model.Post;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfigurationPackage;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
@@ -31,6 +34,11 @@ public class BlogService {
     public Author findAuthorById(Long id){
         return authorRepository.getById(id);
     }
+    public Author findAuthorByEmail(String email){
+        return authorRepository.findByEmail(email);
+    }
+
+
 
     public void  deleteAuthorById(Long id){
         authorRepository.deleteById(id);
@@ -49,4 +57,40 @@ public class BlogService {
                     return authorRepository.save(newauthor);
                 });
     }
+
+
+    // posts
+    public Post savePost(Post post){
+        return postRepository.save(post);
+    }
+    public List<Post> listAllPots(){
+        return  postRepository.findAll();
+    }
+    public Post findPostById(Long id){
+        return postRepository.getById(id);
+    }
+
+    public  void deletePostById(Long id)
+    {
+        postRepository.deleteById(id);
+    }
+
+    public Post updatePost(Post post, Long id){
+        return postRepository.findById(id)
+                .map(newPost -> {
+                    newPost.setTitle(post.getTitle());
+                    newPost.setText(post.getText() );
+                    newPost.setCategories(post.getCategories());
+                    return postRepository.save(newPost);
+                })
+                .orElseGet(() ->{
+                    post.setId(id);
+                    return  postRepository.save(post);
+                });
+    }
+
+
+
+
+
 }

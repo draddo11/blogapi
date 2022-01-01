@@ -61,6 +61,14 @@ public class Post {
         return categories;
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public void setCategories(List<Category> categories) {
         this.categories = categories;
     }

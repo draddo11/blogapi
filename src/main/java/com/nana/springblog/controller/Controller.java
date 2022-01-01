@@ -4,6 +4,8 @@ import com.nana.springblog.AuthorRepository;
 import com.nana.springblog.model.Author;
 import com.nana.springblog.service.BlogService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,24 +20,17 @@ import java.util.List;
         private BlogService blogService;
 
         @GetMapping("/authors")
-        public List<Author> listAllAuthors(){
-            return blogService.listAllAuthors();
+        ResponseEntity<List <Author>> listAllAuthors(){
+            return ResponseEntity.ok(blogService.listAllAuthors());
         }
-//
+
         @GetMapping("/authors/{id}")
-        public Author findAuthorById(@PathVariable Long id) {
-            return blogService.findAuthorById(id);
-//            .orElseThrow(()-> new AuthorNotFoundException(id));
+        ResponseEntity <Author> findAuthorById(@PathVariable Long id) {
+            return ResponseEntity.ok(blogService.findAuthorById(id));
         }
-//            if(author.isPresent()) {
-//                return ResponseEntity.ok().body(author.get());
-//            } else {
-//                return ResponseEntity.notFound().build();
-//            }
-//        }
         @PutMapping("/authors/{id}")
-        Author updateAuthor(@RequestBody Author newAuthor, @PathVariable Long id){
-            return blogService.updateAuthor(newAuthor,id);
+        ResponseEntity<Author> updateAuthor(@RequestBody Author newAuthor, @PathVariable Long id){
+            return ResponseEntity.ok(blogService.updateAuthor(newAuthor,id));
         }
 
          @DeleteMapping("/authors/{id}")
@@ -43,9 +38,13 @@ import java.util.List;
             blogService.deleteAuthorById(id);
          }
 
-        @PostMapping("/new")
-        public Author saveAuthor(@Validated @RequestBody Author author) {
-            return blogService.saveAuthor(author);
+        @PostMapping("/authors")
+        ResponseEntity <Author> saveAuthor(@Validated @RequestBody Author author) {
+            Author exstingAuthor = blogService.findAuthorByEmail(author.getEmail());
+            if(exstingAuthor != null){
+                return new ResponseEntity<Author>(HttpStatus.BAD_REQUEST);
+            }
+            return ResponseEntity.ok(blogService.saveAuthor(author));
         }
     }
 
