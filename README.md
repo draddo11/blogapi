@@ -19,5 +19,14 @@ http://localhost:8080/api/authors/{id}
 6 ## Making a Put request to update an existing author  
 http://localhost:8080/api/authors/{id}
 
+## Category 
+8 ## All category request 
+## http://localhost:8080/api/category 
+
+9 ## Request an individual category
+## http://localhost:8080/api/category{id}
+
+10 ## Update an indidual category 
+## http://localhost:8080/api/category 
 
 http://localhost:8080/api/category/history
