@@ -1,28 +1,24 @@
 package com.nana.springblog.model;
 
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
-import java.io.Serializable;
-import java.util.List;
 
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Entity
-@Table(name="Author")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Author {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    public int id;
+    public String firstName;
+    public String lastName;
+    @Column(name = "email", nullable = false, unique = true)
+    public String email;
+    public String phoneNumber;
 
-    private String firstName;
-    private String lastName;
-    @Column(unique=true, name = "email" ,nullable = false)
-    private String  email;
-    private String phoneNumber;
 
-// @OneToMany(mappedBy = "author" ,fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-// private List<Post> posts;
+    public Author() {
+    }
 
     public Author(String firstName, String lastName, String email, String phoneNumber) {
         this.firstName = firstName;
@@ -31,8 +27,12 @@ public class Author {
         this.phoneNumber = phoneNumber;
     }
 
-    public Author() {
+    public int getId() {
+        return id;
+    }
 
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getFirstName() {
@@ -67,19 +67,10 @@ public class Author {
         this.phoneNumber = phoneNumber;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     @Override
     public String toString() {
         return "Author{" +
-                "id=" + id +
-                ", firstName='" + firstName + '\'' +
+                "firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +

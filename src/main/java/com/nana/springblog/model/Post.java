@@ -1,36 +1,48 @@
 package com.nana.springblog.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import javax.persistence.*;
-import java.io.Serializable;
-import java.util.List;
+import java.util.Collection;
+import java.util.Set;
 
 @Entity
-@Table(name = "posts")
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-public class Post {
+public class Post{
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private String category;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer id;
+
     private String title;
+
     private String text;
 
 
-    @ManyToOne(fetch = FetchType.LAZY,optional = false)
-    @JoinColumn(name="author_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "author_id", nullable = false)
     private Author author;
 
+    @ManyToMany
+
+    @JoinTable(name = "post_categories",
+            joinColumns = @JoinColumn(name = "post_id",
+            referencedColumnName ="id"),inverseJoinColumns = @JoinColumn(name = "category_id", referencedColumnName = "id"))
+    private Collection <CategoryList> categoryLists;
 
     public Post() {
     }
 
-    public Post(String title, String text, Author author, String category) {
+    public Post(Integer id, String title, String text, Author author, Collection <CategoryList> categoryLists) {
+        this.id = id;
         this.title = title;
         this.text = text;
         this.author = author;
-        this.category = category;
+        this.categoryLists = categoryLists;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getTitle() {
@@ -57,30 +69,11 @@ public class Post {
         this.author = author;
     }
 
-   public String  getCategory() {
-       return category;
+    public Collection <CategoryList> getCategoryLists() {
+        return categoryLists;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public void setCategory(String category) {
-        this.category = category;
-    }
-
-    @Override
-    public String toString() {
-        return "Post{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", text='" + text + '\'' +
-                ", author=" + author +
-//                ", categories=" + categories +
-                '}';
+    public void setCategoryLists(Collection<CategoryList> categoryLists) {
+        this.categoryLists = categoryLists;
     }
 }

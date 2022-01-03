@@ -1,112 +1,136 @@
 package com.nana.springblog.service;
 
-import com.nana.springblog.AuthorRepository;
-import com.nana.springblog.CategoryRepository;
-import com.nana.springblog.PostRepository;
-import com.nana.springblog.exceptions.ResourceNotFoundException;
 import com.nana.springblog.model.Author;
+import com.nana.springblog.model.CategoryList;
 import com.nana.springblog.model.Post;
+import com.nana.springblog.repository.AuthorRepo;
+import com.nana.springblog.repository.CategoryListRepo;
+import com.nana.springblog.repository.PostsRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 @Service
 public class BlogService {
     @Autowired
-    private AuthorRepository authorRepository;
+    private AuthorRepo authorRepo;
     @Autowired
-    private CategoryRepository categoryRepository;
+    private CategoryListRepo categoryListRepo;
     @Autowired
-    private PostRepository postRepository;
+    private PostsRepo postsRepo;
 
 
     public List<Author> listAllAuthors(){
-        return authorRepository.findAll();
+        return  authorRepo.findAll();
     }
+
+    public Author findAuthorById(int id){
+        return authorRepo.getById(id);
+    }
+    public Author findAuthorByEmail( Author author){
+        return authorRepo.findByEmail(author.getEmail());
+    }
+
     public Author saveAuthor(Author author){
-        return authorRepository.save(author);
+        return authorRepo.save(author);
     }
 
-    public Author findAuthorById(Long id){
-        return authorRepository.getById(id);
-    }
-    public Author findAuthorByEmail(Author author){
-        return authorRepository.findByEmail(author.getEmail());
+    public  void deleteAuthorById(int id)
+    {
+        authorRepo.deleteById(id);
     }
 
-
-
-    public void  deleteAuthorById(Long id){
-        authorRepository.deleteById(id);
-    }
-
-    public Author updateAuthor(Author newauthor , Long id ){
-        return authorRepository.findById(id)
-                .map(author -> {
-                    author.setFirstName(newauthor.getFirstName());
-                    author.setLastName(newauthor.getLastName());
-                    author.setEmail(newauthor.getEmail());
-                    author.setPhoneNumber(newauthor.getPhoneNumber());
-                    return authorRepository.save(author);
-                }).orElseGet(() ->{
-                    newauthor.setId(id);
-                    return authorRepository.save(newauthor);
+    public Author updateAuthor(Author author, int id){
+        return authorRepo.findById(id)
+                .map(author1 -> {
+                    author1.setFirstName(author.getFirstName());
+                    author1.setLastName(author.getLastName() );
+                    author1.setEmail(author.getEmail());
+                    author1.setPhoneNumber(author.getPhoneNumber());
+                    return authorRepo.save(author1);
+                })
+                .orElseGet(() ->{
+                    author.setId(id);
+                    return  authorRepo.save(author);
                 });
     }
-
-
-    // posts
-
-
-    public Post savePost(Post post , Long id){
-        return authorRepository.findById(id).map(author -> {
-            post.setAuthor(author);
-            return postRepository.save(post);
-        } ).orElseThrow(() -> new ResourceNotFoundException("Author " + id + " not found"));
-
-
-
-    }
-
-    public List<Post> listAllPost(){
-        return  postRepository.findAll();
-    }
-
-    public Post findPostById(Long id){
-        return postRepository.getById(id);
+//     posts
+    public Post savePost(Post post , Integer author_id, Integer category_id){
+        CategoryList categoryList = categoryListRepo.getById(category_id);
+        Author author = authorRepo.getById(author_id);
+        post.setAuthor(author);
+        List <CategoryList> category = Collections.singletonList(categoryList);
+        post.setCategoryLists(category);
+        return postsRepo.save(post);
     }
 
 
-    public  void deletePostById(Long id)
+    public List<Post> listAllPots(){
+        return  postsRepo.findAll();
+    }
+
+    public Post findPostById(int id){
+        return postsRepo.getById(id);
+    }
+
+    public  void deletePostById(int id)
     {
-        postRepository.deleteById(id);
+        postsRepo.deleteById(id);
     }
-
-    public Post updatePost(Post post, Long id){
-        return authorRepository.findById(id)
-                .map(author -> {
-                    post.setAuthor(author);
-                    post.setTitle(post.getTitle());
-                    post.setText(post.getText() );
-                    post.setCategory(post.getCategory());
-                    return postRepository.save(post);
+//
+    public Post updatePost(Post post, Integer id){
+        return postsRepo.findById(id)
+                .map(newPost -> {
+                    newPost.setTitle(post.getTitle());
+                    newPost.setText(post.getText() );
+                    return postsRepo.save(newPost);
                 })
                 .orElseGet(() ->{
                     post.setId(id);
-                    return  postRepository.save(post);
+                    return  postsRepo.save(post);
                 });
     }
-// category
 
-//    public Category createCategory(Category category, Long id){
-//        return  postRepository.findById(id).map(posts ->{
-//            category.setPost(posts);
-//            return categoryRepository.save(category);
-//        }).orElseThrow(() -> new ResourceNotFoundException("Author " + id + " not found"));
-//    }
+//////////////////////////////////////////////////////////////////////categoryList///////////////////////////////
 
 
+    public CategoryList  createCategory(CategoryList categoryList){
+        categoryList.setName(categoryList.getName().toLowerCase());
+        return categoryListRepo.save(categoryList);
+    }
+
+    public List<CategoryList> listAllCategories(){
+        return  categoryListRepo.findAll();
+    }
+
+    public CategoryList findCategoryById(Integer id){
+        return categoryListRepo.getById(id);
+    }
+
+    public CategoryList findCategoryByName(String name){
+        return categoryListRepo.findByName(name);
+    }
+
+    public  void deleteCategoryById(int id)
+    {
+        categoryListRepo.deleteById(id);
+    }
+
+    public CategoryList updateCategory(CategoryList  newCategory, int id){
+        return categoryListRepo.findById(id)
+                .map(categoryList -> {
+                    categoryList.setName(newCategory.getName());
+                    return categoryListRepo.save(categoryList);
+                })
+                .orElseGet(() ->{
+                    newCategory.setId(id);
+                    return  categoryListRepo.save(newCategory);
+                });
+    }
+//
 
 
 }
