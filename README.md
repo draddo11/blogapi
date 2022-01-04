@@ -26,7 +26,7 @@ http://localhost:8080/api/authors/{id}
 9 ## Request an individual category
 ## http://localhost:8080/api/category{id}
 
-10 ## Update an indidual category 
+10 ## Update an individual category 
 ## http://localhost:8080/api/category 
 
 http://localhost:8080/api/category/history
