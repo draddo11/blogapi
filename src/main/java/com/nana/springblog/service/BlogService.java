@@ -94,7 +94,7 @@ public class BlogService {
                 });
     }
 
-//////////////////////////////////////////////////////////////////////categoryList///////////////////////////////
+/////////categoryList///////////
 
 
     public CategoryList  createCategory(CategoryList categoryList){

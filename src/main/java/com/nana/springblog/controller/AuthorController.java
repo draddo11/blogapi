@@ -37,10 +37,11 @@ public class AuthorController{
         //checking if user exists
         Author authorExists = blogService.findAuthorByEmail(author);
         //validating number
+//        todo  validate for gh numbers
         Pattern ptrn = Pattern.compile("(0/91)?[7-9][0-9]{9}");
         Matcher match = ptrn.matcher(author.getPhoneNumber());
 
-        if (matcher.matches() == false){
+        if (!matcher.matches()){
             return new ResponseEntity<String>("try using a valid email", HttpStatus.BAD_REQUEST );
         } else if (authorExists != null) {
             return new ResponseEntity<String>("The use already Exist", HttpStatus.BAD_REQUEST );
@@ -52,7 +53,7 @@ public class AuthorController{
             return new ResponseEntity<String>("The use already Exist", HttpStatus.BAD_REQUEST );
         } else {
             blogService.saveAuthor(author);
-            return new ResponseEntity<>("user saved sucessfully", HttpStatus.OK);
+            return new ResponseEntity<String>("user saved successfully", HttpStatus.OK);
         }
     }
 

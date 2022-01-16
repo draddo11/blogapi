@@ -9,12 +9,14 @@ import javax.persistence.*;
 public class Author {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    Todo change to private
     public int id;
-    public String firstName;
-    public String lastName;
+
+    private String firstName;
+    private String lastName;
     @Column(name = "email", nullable = false, unique = true)
-    public String email;
-    public String phoneNumber;
+    private String email;
+    private String phoneNumber;
 
 
     public Author() {
